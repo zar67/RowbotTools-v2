@@ -1,0 +1,15 @@
+{
+    "name": "com.rowbot-games.rowbot-tools-core",
+    "version": "0.1.0",
+    "displayName": "Rowbot Tools - Core",
+    "description": "The core package used with the Rowbot Tools package collection.",
+    "documentationUrl": "https://github.com/zar67/RowbotTools-v2/wiki",
+    "dependencies": {
+      "com.unity.addressables": "1.19.19"
+   },
+    "author": {
+      "name": "Zoe Rowbotham",
+      "url": "https://zar67.github.io/Portfolio/"
+    }
+  }
+  
