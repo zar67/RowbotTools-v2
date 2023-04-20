@@ -1,8 +1,8 @@
 namespace RowbotTools.Core.ServiceSystem
 {
+    using RowbotTools.Core.Utilities;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using UnityEditor;
     using UnityEngine;
 
@@ -15,16 +15,16 @@ namespace RowbotTools.Core.ServiceSystem
 
         public ServicesManagerEditor()
         {
-            m_allServices = GetAllServices();
-            m_allRowbotToolsServices = GetAllRowbotToolsServices();
-            m_allCustomServices = GetAllCustomServices();
+            m_allServices = AssemblyUtilities.GetAllOfType<Service>();
+            m_allRowbotToolsServices = AssemblyUtilities.GetAllOfTypeInNamespace<Service>(nameof(RowbotTools));
+            m_allCustomServices = AssemblyUtilities.GetAllOfTypeExcludingNamespace<Service>(nameof(RowbotTools));
 
             ServicesManager.InitializeEnabledServices(m_allServices);
         }
 
         private void OnEnable()
         {
-            List<Type> refreshedServices = GetAllServices();
+            List<Type> refreshedServices = AssemblyUtilities.GetAllOfType<Service>();
 
             foreach (Type service in m_allServices)
             {
@@ -34,8 +34,8 @@ namespace RowbotTools.Core.ServiceSystem
                 }
             }
 
-            m_allRowbotToolsServices = GetAllRowbotToolsServices();
-            m_allCustomServices = GetAllCustomServices();
+            m_allRowbotToolsServices = AssemblyUtilities.GetAllOfTypeInNamespace<Service>(nameof(RowbotTools));
+            m_allCustomServices = AssemblyUtilities.GetAllOfTypeExcludingNamespace<Service>(nameof(RowbotTools));
             m_allServices = refreshedServices;
         }
 
@@ -51,7 +51,7 @@ namespace RowbotTools.Core.ServiceSystem
 
             foreach (var service in m_allRowbotToolsServices)
             {
-                EditorGUILayout.Toggle(service.Name, true);
+                EditorGUILayout.Toggle(service.Name, ServicesManager.IsServiceEnabled(service));
             }
 
             GUI.enabled = guiPreviouslyEnabled;
@@ -75,32 +75,6 @@ namespace RowbotTools.Core.ServiceSystem
                     }
                 }
             }
-        }
-
-        private List<Type> GetAllServices()
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsSubclassOf(typeof(Service)))
-                .ToList();
-        }
-
-        private List<Type> GetAllRowbotToolsServices()
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsSubclassOf(typeof(Service)))
-                .Where(type => type.Namespace != null && type.Namespace.Contains(nameof(RowbotTools)))
-                .ToList();
-        }
-
-        private List<Type> GetAllCustomServices()
-        {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsSubclassOf(typeof(Service)))
-                .Where(type => type.Namespace == null || !type.Namespace.Contains(nameof(RowbotTools)))
-                .ToList();
         }
     }
 }
