@@ -169,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99581311521869149a4b7ce8d92ede09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_startingStateName: TestState
   m_mainCanvas: {fileID: 1843063759}
   m_viewAssetsLabel:
     m_LabelString: view

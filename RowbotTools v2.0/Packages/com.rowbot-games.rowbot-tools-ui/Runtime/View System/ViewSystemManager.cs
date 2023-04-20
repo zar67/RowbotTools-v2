@@ -2,6 +2,7 @@ namespace RowbotTools.UI.ViewSystem
 {
     using RowbotTools.Core.ServiceSystem;
     using RowbotTools.Core.Utilities;
+    using System;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
@@ -11,10 +12,16 @@ namespace RowbotTools.UI.ViewSystem
     [RequireComponent(typeof(DontDestroyOnLoad))]
     public class ViewSystemManager : MonoBehaviour
     {
+        [SerializeField] private string m_startingStateName;
         [SerializeField] private Canvas m_mainCanvas;
         [SerializeField] private AssetLabelReference m_viewAssetsLabel;
 
         private StateService m_stateService = null;
+
+        /// <summary>
+        /// The name of the starting state type.
+        /// </summary>
+        public string StartingStateName => m_startingStateName;
 
         /// <summary>
         /// The main canvas for all the Views to be instantiated under.

@@ -11,6 +11,7 @@ namespace RowbotTools.UI.ViewSystem
     {
         private AddressablesService m_addressablesService = null;
         private ViewSystemManager m_viewsManager = null;
+
         private Dictionary<string, View> m_allViews = new Dictionary<string, View>();
 
         /// <summary>
@@ -49,6 +50,8 @@ namespace RowbotTools.UI.ViewSystem
 
                     newView.Init();
                 }
+
+                ServiceSystemManager.Get<StateService>().SetStartingState(m_viewsManager.StartingStateName);
             });
         }
 
