@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79859383}
+  - component: {fileID: 79859385}
   - component: {fileID: 79859384}
   m_Layer: 0
   m_Name: ViewStatesManager
@@ -171,6 +172,18 @@ MonoBehaviour:
   m_mainCanvas: {fileID: 1843063759}
   m_viewAssetsLabel:
     m_LabelString: view
+--- !u!114 &79859385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79859382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337283ac3f915144aaecd8007d55e4a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &607655950
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 607655951}
+  - component: {fileID: 607655953}
   - component: {fileID: 607655952}
   m_Layer: 0
   m_Name: ServicesManager
@@ -213,6 +227,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 083d4b84405a27c4bab9a8b448296ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &607655953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607655950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 337283ac3f915144aaecd8007d55e4a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &705507993

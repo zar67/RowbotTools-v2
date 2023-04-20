@@ -46,9 +46,65 @@ namespace RowbotTools.UI.ViewSystem
                     }
 
                     m_allViews.Add(newView.GetType().Name, newView);
-                    newObject.SetActive(false);
+
+                    newView.Init();
                 }
             });
+        }
+
+        public override void Cleanup()
+        {
+            base.Cleanup();
+
+            foreach (KeyValuePair<string, View> viewMap in m_allViews)
+            {
+                viewMap.Value.CleanUp();
+            }
+        }
+
+        /// <summary>
+        /// Gest the instantiated View of the given type.
+        /// </summary>
+        public View Get<T>() where T : View
+        {
+            string viewID = typeof(T).Name;
+            if (m_allViews.ContainsKey(viewID))
+            {
+                return (T)m_allViews[viewID];
+            }
+
+            Debug.LogError($"Could not find {viewID} in the views list, are you sure you created the view?");
+            return null;
+        }
+
+        /// <summary>
+        /// Opens the view.
+        /// </summary>
+        public void Open<T>() where T : View
+        {
+            View view = Get<T>();
+            if (view == null)
+            {
+                Debug.LogError($"Failed to open {typeof(T).Name}");
+                return;
+            }
+
+            view.Open();
+        }
+
+        /// <summary>
+        /// Closes the view.
+        /// </summary>
+        public void Close<T>() where T : View
+        {
+            View view = Get<T>();
+            if (view == null)
+            {
+                Debug.LogError($"Failed to close {typeof(T).Name}");
+                return;
+            }
+
+            view.Close();
         }
     }
 }

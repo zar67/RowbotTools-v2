@@ -19,7 +19,7 @@ namespace RowbotTools.UI.ViewSystem
         public Canvas MainCanvas => m_mainCanvas;
 
         /// <summary>
-        /// The label all of the View assets have been assigned.
+        /// The label all of the View addressable assets have been assigned.
         /// </summary>
         public AssetLabelReference ViewAssetsLabel => m_viewAssetsLabel;
     }
