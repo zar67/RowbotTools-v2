@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 79859385}
   - component: {fileID: 79859384}
   m_Layer: 0
-  m_Name: ViewStatesManager
+  m_Name: ViewSystemManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 607655953}
   - component: {fileID: 607655952}
   m_Layer: 0
-  m_Name: ServicesManager
+  m_Name: ServiceSystemManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
