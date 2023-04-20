@@ -5,9 +5,6 @@ namespace RowbotTools.Core.ServiceSystem
     /// </summary>
     public abstract class Service
     {
-#if UNITY_EDITOR
-        public string Name;
-#endif
         /// <summary>
         /// The base initialization of the service, ran in the Start of the ServicesManager.
         /// </summary>
