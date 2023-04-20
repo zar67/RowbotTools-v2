@@ -1,0 +1,17 @@
+{
+    "name": "rowbot-games.rowbot-tools-ui",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f41d6b08493ef854caaa573d970cde06",
+        "GUID:9e24947de15b9834991c9d8411ea37cf"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

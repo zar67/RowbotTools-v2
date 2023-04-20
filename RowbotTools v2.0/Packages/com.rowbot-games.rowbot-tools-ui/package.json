@@ -1,0 +1,14 @@
+{
+  "name": "com.rowbot-games.rowbot-tools-ui",
+  "version": "0.1.0",
+  "displayName": "Rowbot Tools - UI",
+  "description": "A RowbotTools package with various UI systems.",
+  "documentationUrl": "https://github.com/zar67/RowbotTools-v2/wiki",
+  "dependencies": {
+    "com.rowbot-games.rowbot-tools-core": "0.1.0"
+  },
+  "author": {
+    "name": "Zoe Rowbotham",
+    "url": "https://zar67.github.io/Portfolio/"
+  }
+}

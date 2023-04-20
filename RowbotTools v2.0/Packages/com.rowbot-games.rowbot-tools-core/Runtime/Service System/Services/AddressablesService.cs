@@ -1,6 +1,7 @@
 namespace RowbotTools.Core.ServiceSystem
 {
     using System;
+    using System.Collections.Generic;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
     using UnityEngine.AddressableAssets.ResourceLocators;
@@ -53,6 +54,24 @@ namespace RowbotTools.Core.ServiceSystem
                 else
                 {
                     Debug.LogError($"Failed to load adressable {assetReference.Asset.name}");
+                }
+            };
+        }
+
+        /// <summary>
+        /// Loads all assets with a given label. Calls the loadedCallback if assets are successfully loaded.
+        /// </summary>
+        public void LoadAssets<T>(AssetLabelReference assetsLabel, Action<IEnumerable<T>> loadedCallback)
+        {
+            Addressables.LoadAssetsAsync<T>(assetsLabel, null).Completed += (asyncOperationHandle) =>
+            {
+                if (asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    loadedCallback?.Invoke(asyncOperationHandle.Result);
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load adressables with label {assetsLabel}");
                 }
             };
         }

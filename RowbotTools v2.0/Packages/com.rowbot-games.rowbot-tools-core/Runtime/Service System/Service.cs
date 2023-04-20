@@ -14,6 +14,14 @@ namespace RowbotTools.Core.ServiceSystem
         }
 
         /// <summary>
+        /// The base late initialization, ran in Start of the ServicesManager after all Services have been initialized.
+        /// </summary>
+        public virtual void LateInit()
+        {
+        
+        }
+
+        /// <summary>
         /// The base clean up of the service, ran in the OnDestroy of the ServicesManager.
         /// </summary>
         public virtual void Cleanup()

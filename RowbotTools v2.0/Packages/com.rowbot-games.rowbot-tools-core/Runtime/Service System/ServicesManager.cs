@@ -1,11 +1,12 @@
 namespace RowbotTools.Core.ServiceSystem
 {
+    using RowbotTools.Core.Utilities;
     using System;
     using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
-    /// An abstract class for intializing ad managing all the services in the project.
+    /// An abstract class for intializing and managing all the services in the project.
     /// </summary>
     public class ServicesManager : MonoBehaviour
     {
@@ -74,7 +75,7 @@ namespace RowbotTools.Core.ServiceSystem
 
         private void Awake()
         {
-            foreach (var service in m_enabledServices)
+            foreach (Type service in AssemblyUtilities.GetAllOfType<Service>())
             {
                 m_services.Add(service.Name, Activator.CreateInstance(service) as Service);
             }
@@ -88,6 +89,11 @@ namespace RowbotTools.Core.ServiceSystem
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {
                 serviceMap.Value.Init();
+            }
+
+            foreach (KeyValuePair<string, Service> serviceMap in m_services)
+            {
+                serviceMap.Value.LateInit();
             }
         }
 
