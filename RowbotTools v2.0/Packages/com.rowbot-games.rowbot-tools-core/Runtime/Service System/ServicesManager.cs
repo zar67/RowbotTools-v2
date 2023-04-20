@@ -1,29 +1,24 @@
 namespace RowbotTools.Core.ServiceSystem
 {
+    using System;
     using System.Collections.Generic;
     using UnityEngine;
 
     /// <summary>
     /// An abstract class for intializing ad managing all the services in the project.
     /// </summary>
-    public abstract class ServicesManager : MonoBehaviour
+    public class ServicesManager : MonoBehaviour
     {
-        protected static Dictionary<string, Service> m_services = new Dictionary<string, Service>();
+        private static List<Type> m_enabledServices = new List<Type>();
 
-        /// <summary>
-        /// Converts the generic service type into a string identifier.
-        /// </summary>
-        protected static string GetServiceID<T>() where T : Service
-        {
-            return typeof(T).ToString();
-        }
+        protected static Dictionary<string, Service> m_services = new Dictionary<string, Service>();
 
         /// <summary>
         /// Gets the Service of the given type.
         /// </summary>
         public static T GetService<T>() where T : Service
         {
-            string serviceID = GetServiceID<T>();
+            string serviceID = typeof(T).Name;
             if (m_services.ContainsKey(serviceID))
             {
                 return (T)m_services[serviceID];
@@ -33,34 +28,56 @@ namespace RowbotTools.Core.ServiceSystem
             return null;
         }
 
+#if UNITY_EDITOR
         /// <summary>
-        /// Creates a new instance of the service and adds it to the list of services, if it doesn't already exist.
+        /// Editor only function for initializing the enabled services list.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static bool CreateService<T>(out T newService) where T : Service, new()
+        public static void InitializeEnabledServices(IEnumerable<Type> allServices)
         {
-            string serviceID = GetServiceID<T>();
-            if (m_services.ContainsKey(serviceID))
+            m_enabledServices = new List<Type>();
+            foreach (Type service in allServices)
             {
-                Debug.LogWarning($"{serviceID} already exists in the services list, you cannot add multiple services of the same type.");
-                newService = null;
-                return false;
+                m_enabledServices.Add(service);
             }
-
-            newService = new T();
-            m_services.Add(serviceID, newService);
-
-            return true;
         }
 
         /// <summary>
-        /// The base Awake calls CreateService for the essential services of the Robot Tools Core packcage.
-        /// Ovveride this function to add more services, but still call the base!
+        /// Editor only function for checking whether a service is enabled.
         /// </summary>
-        protected virtual void Awake()
+        public static bool IsServiceEnabled(Type service)
         {
-        
+            return m_enabledServices.Contains(service);
+        }
+
+        /// <summary>
+        /// Editor only function for adding a service to the enabled services list.
+        /// </summary>
+        public static void EnableService(Type service)
+        {
+            if (!m_enabledServices.Contains(service))
+            {
+                m_enabledServices.Add(service);
+            }
+        }
+
+        /// <summary>
+        /// Editor only function for removing a service from the enabled services list.
+        /// </summary>
+        public static void DisableService(Type service)
+        {
+            if (m_enabledServices.Contains(service))
+            {
+                m_enabledServices.Remove(service);
+            }
+        }
+#endif
+
+        private void Awake()
+        {
+            foreach (var service in m_enabledServices)
+            {
+                m_services.Add(service.Name, Activator.CreateInstance(service) as Service);
+            }
         }
 
         /// <summary>

@@ -1,7 +1,9 @@
 {
     "name": "rowbot-games.rowbot-tools-core.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:f41d6b08493ef854caaa573d970cde06"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
