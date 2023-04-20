@@ -10,7 +10,7 @@ namespace RowbotTools.UI.ViewSystem
     public class ViewService : Service
     {
         private AddressablesService m_addressablesService = null;
-        private ViewStatesManager m_viewsManager = null;
+        private ViewSystemManager m_viewsManager = null;
         private Dictionary<string, View> m_allViews = new Dictionary<string, View>();
 
         /// <summary>
@@ -20,14 +20,14 @@ namespace RowbotTools.UI.ViewSystem
         {
             base.LateInit();
 
-            m_viewsManager = Object.FindObjectOfType<ViewStatesManager>();
+            m_viewsManager = Object.FindObjectOfType<ViewSystemManager>();
             if (m_viewsManager == null)
             {
                 Debug.LogError("Could not find ViewsManager in ViewService init, make sure there is a ViewsManager in the boot scene.");
                 return;
             }
 
-            m_addressablesService = ServicesManager.GetService<AddressablesService>();
+            m_addressablesService = ServiceSystemManager.Get<AddressablesService>();
 
             // Instantiate Views
             m_addressablesService.LoadAssets<GameObject>(m_viewsManager.ViewAssetsLabel, (views) => 
@@ -78,7 +78,7 @@ namespace RowbotTools.UI.ViewSystem
         }
 
         /// <summary>
-        /// Opens the view.
+        /// Opens a view.
         /// </summary>
         public void Open<T>() where T : View
         {
@@ -89,11 +89,14 @@ namespace RowbotTools.UI.ViewSystem
                 return;
             }
 
-            view.Open();
+            if (!view.IsOpenOrOpening)
+            {
+                view.Open();
+            }
         }
 
         /// <summary>
-        /// Closes the view.
+        /// Closes a view.
         /// </summary>
         public void Close<T>() where T : View
         {
@@ -104,7 +107,10 @@ namespace RowbotTools.UI.ViewSystem
                 return;
             }
 
-            view.Close();
+            if (!view.IsClosedOrClosing)
+            {
+                view.Close();
+            }
         }
     }
 }

@@ -10,14 +10,14 @@ namespace RowbotTools.Core.ServiceSystem
     /// </summary>
     
     [RequireComponent(typeof(DontDestroyOnLoad))]
-    public class ServicesManager : MonoBehaviour
+    public class ServiceSystemManager : MonoBehaviour
     {
         protected static Dictionary<string, Service> m_services = new Dictionary<string, Service>();
 
         /// <summary>
         /// Gets the Service of the given type.
         /// </summary>
-        public static T GetService<T>() where T : Service
+        public static T Get<T>() where T : Service
         {
             string serviceID = typeof(T).Name;
             if (m_services.ContainsKey(serviceID))

@@ -1,17 +1,20 @@
 namespace RowbotTools.UI.ViewSystem
 {
+    using RowbotTools.Core.ServiceSystem;
     using RowbotTools.Core.Utilities;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
     /// <summary>
-    /// An abstract class for intializing and managing all the states and views in the project.
+    /// An abstract class for intializing and managing all states and views in the project.
     /// </summary>
     [RequireComponent(typeof(DontDestroyOnLoad))]
-    public class ViewStatesManager : MonoBehaviour
+    public class ViewSystemManager : MonoBehaviour
     {
         [SerializeField] private Canvas m_mainCanvas;
         [SerializeField] private AssetLabelReference m_viewAssetsLabel;
+
+        private StateService m_stateService = null;
 
         /// <summary>
         /// The main canvas for all the Views to be instantiated under.
@@ -22,5 +25,15 @@ namespace RowbotTools.UI.ViewSystem
         /// The label all of the View addressable assets have been assigned.
         /// </summary>
         public AssetLabelReference ViewAssetsLabel => m_viewAssetsLabel;
+
+        private void Start()
+        {
+            m_stateService = ServiceSystemManager.Get<StateService>();
+        }
+
+        private void Update()
+        {
+            m_stateService.UpdateCurrentState();
+        }
     }
 }

@@ -3,9 +3,33 @@ namespace RowbotTools.UI.ViewSystem
     using System.Collections;
     using UnityEngine;
 
+    /// <summary>
+    /// An abstract class for handling a single view in the UI.
+    /// </summary>
     public abstract class View : MonoBehaviour
     {
+        private enum ViewState
+        {
+            Uninitialized,
+            Closed,
+            Opening,
+            Open,
+            Closing
+        }
+
         [SerializeField] private ViewAnimatorReferences m_animatorReferences = new ViewAnimatorReferences();
+
+        private ViewState m_viewState = ViewState.Uninitialized;
+
+        /// <summary>
+        /// Gets whether the view is currently open or is opening.
+        /// </summary>
+        public bool IsOpenOrOpening => m_viewState == ViewState.Opening || m_viewState == ViewState.Open;
+
+        /// <summary>
+        /// Gets whether the view is currently closed or is closing.
+        /// </summary>
+        public bool IsClosedOrClosing => m_viewState == ViewState.Closing || m_viewState == ViewState.Closed;
 
         /// <summary>
         /// Set the View object active and handle the opening of the View.
@@ -29,6 +53,7 @@ namespace RowbotTools.UI.ViewSystem
         public virtual void Init()
         {
             gameObject.SetActive(false);
+            m_viewState = ViewState.Closed;
         }
 
         /// <summary>
@@ -36,11 +61,11 @@ namespace RowbotTools.UI.ViewSystem
         /// </summary>
         public virtual void CleanUp()
         {
-        
+            m_viewState = ViewState.Uninitialized;
         }
 
         /// <summary>
-        /// Function called at the beginning of the View's opening sequence, before the transition animation has played.
+        /// The beginning of the View's opening sequence, before the transition animation has played.
         /// </summary>
         protected virtual void OpenStarted()
         {
@@ -48,34 +73,37 @@ namespace RowbotTools.UI.ViewSystem
             gameObject.SetActive(true);
 
             m_animatorReferences.TransitionIn();
+            m_viewState = ViewState.Opening;
 
             StartCoroutine(WaitUntilTransitionInComplete());
         }
 
         /// <summary>
-        /// Function called at the end of the View's opening sequence, after the transition animation has completed.
+        /// The end of the View's opening sequence, after the transition animation has completed.
         /// </summary>
         protected virtual void OpenComplete()
         {
-
+            m_viewState = ViewState.Open;
         }
 
         /// <summary>
-        /// Function called at the beginning of the View's closing sequence, before the transition animation has played.
+        /// The beginning of the View's closing sequence, before the transition animation has played.
         /// </summary>
         protected virtual void CloseStarted()
         {
             m_animatorReferences.TransitionOut();
+            m_viewState = ViewState.Closing;
 
             StartCoroutine(WaitUntilTransitionOutComplete());
         }
 
         /// <summary>
-        /// Function called at the end of the View's closing sequence, after the transition animation has completed.
+        /// The end of the View's closing sequence, after the transition animation has completed.
         /// </summary>
         protected virtual void CloseComplete()
         {
             gameObject.SetActive(false);
+            m_viewState = ViewState.Closed;
         }
 
         private IEnumerator WaitUntilTransitionInComplete()
