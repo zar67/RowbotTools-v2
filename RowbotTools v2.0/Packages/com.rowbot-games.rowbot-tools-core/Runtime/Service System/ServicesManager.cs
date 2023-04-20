@@ -8,6 +8,8 @@ namespace RowbotTools.Core.ServiceSystem
     /// <summary>
     /// An abstract class for intializing and managing all the services in the project.
     /// </summary>
+    
+    [RequireComponent(typeof(DontDestroyOnLoad))]
     public class ServicesManager : MonoBehaviour
     {
         protected static Dictionary<string, Service> m_services = new Dictionary<string, Service>();
@@ -54,7 +56,7 @@ namespace RowbotTools.Core.ServiceSystem
         /// <summary>
         /// The base OnDestroy cleans up all the services.
         /// </summary>
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {

@@ -76,6 +76,13 @@ namespace RowbotTools.Core.ServiceSystem
             };
         }
 
+        /// <summary>
+        /// Releases the addressable asset.
+        public void ReleaseAsset<T>(T asset)
+        {
+            Addressables.Release(asset);
+        }
+
         private void OnAddressablesInitialized(AsyncOperationHandle<IResourceLocator> asyncOperationHandle)
         {
             if (asyncOperationHandle.Status == AsyncOperationStatus.Succeeded)

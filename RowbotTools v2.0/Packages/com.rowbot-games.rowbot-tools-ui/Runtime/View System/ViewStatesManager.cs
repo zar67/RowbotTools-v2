@@ -1,11 +1,13 @@
 namespace RowbotTools.UI.ViewSystem
 {
+    using RowbotTools.Core.Utilities;
     using UnityEngine;
     using UnityEngine.AddressableAssets;
 
     /// <summary>
     /// An abstract class for intializing and managing all the states and views in the project.
     /// </summary>
+    [RequireComponent(typeof(DontDestroyOnLoad))]
     public class ViewStatesManager : MonoBehaviour
     {
         [SerializeField] private Canvas m_mainCanvas;

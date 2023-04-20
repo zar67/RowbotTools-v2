@@ -9,6 +9,7 @@ namespace RowbotTools.UI.ViewSystem
     /// </summary>
     public class ViewService : Service
     {
+        private AddressablesService m_addressablesService = null;
         private ViewStatesManager m_viewsManager = null;
         private Dictionary<string, View> m_allViews = new Dictionary<string, View>();
 
@@ -26,8 +27,10 @@ namespace RowbotTools.UI.ViewSystem
                 return;
             }
 
+            m_addressablesService = ServicesManager.GetService<AddressablesService>();
+
             // Instantiate Views
-            ServicesManager.GetService<AddressablesService>().LoadAssets<GameObject>(m_viewsManager.ViewAssetsLabel, (views) => 
+            m_addressablesService.LoadAssets<GameObject>(m_viewsManager.ViewAssetsLabel, (views) => 
             {
                 foreach (GameObject view in views)
                 {
@@ -46,16 +49,6 @@ namespace RowbotTools.UI.ViewSystem
                     newObject.SetActive(false);
                 }
             });
-        }
-
-        /// <summary>
-        /// Destruction of all the View objects.
-        /// </summary>
-        public override void Cleanup()
-        {
-            base.Cleanup();
-
-            // Destroy Views
         }
     }
 }
