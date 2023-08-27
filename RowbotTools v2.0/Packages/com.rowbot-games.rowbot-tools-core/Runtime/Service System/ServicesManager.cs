@@ -10,7 +10,7 @@ namespace RowbotTools.Core.ServiceSystem
     /// </summary>
     
     [RequireComponent(typeof(DontDestroyOnLoad))]
-    public class ServiceSystemManager : MonoBehaviour
+    public class ServicesManager : MonoBehaviour
     {
         protected static Dictionary<string, Service> m_services = new Dictionary<string, Service>();
 
@@ -47,6 +47,14 @@ namespace RowbotTools.Core.ServiceSystem
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {
                 serviceMap.Value.LateInit();
+            }
+        }
+
+        private void Update()
+        {
+            foreach (KeyValuePair<string, Service> serviceMap in m_services)
+            {
+                serviceMap.Value.Update();
             }
         }
 

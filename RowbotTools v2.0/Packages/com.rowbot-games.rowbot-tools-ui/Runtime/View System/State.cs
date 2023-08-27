@@ -15,8 +15,8 @@ namespace RowbotTools.UI.ViewSystem
         /// </summary>
         public virtual void Init()
         {
-            m_viewService = ServiceSystemManager.Get<ViewService>();
-            m_stateService = ServiceSystemManager.Get<StateService>();
+            m_viewService = ServicesManager.Get<ViewService>();
+            m_stateService = ServicesManager.Get<StateService>();
         }
 
         /// <summary>

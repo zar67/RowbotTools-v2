@@ -22,6 +22,14 @@ namespace RowbotTools.Core.ServiceSystem
         }
 
         /// <summary>
+        /// The base Update, called every frame by the ServicesManager.
+        /// </summary>
+        public virtual void Update()
+        {
+        
+        }
+
+        /// <summary>
         /// The base clean up of the service, ran in the OnDestroy of the ServicesManager.
         /// </summary>
         public virtual void Cleanup()

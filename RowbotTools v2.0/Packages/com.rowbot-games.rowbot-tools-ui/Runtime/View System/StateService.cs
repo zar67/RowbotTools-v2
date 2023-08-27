@@ -33,6 +33,19 @@ namespace RowbotTools.UI.ViewSystem
         }
 
         /// <summary>
+        /// Updates the currently active state.
+        /// </summary>
+        public override void Update()
+        {
+            base.Update();
+
+            if (m_currentStateString != null)
+            {
+                m_allStates[m_currentStateString].Update();
+            }
+        }
+
+        /// <summary>
         /// Cleans up all the states.
         /// </summary>
         public override void Cleanup()
@@ -78,19 +91,6 @@ namespace RowbotTools.UI.ViewSystem
 
             m_currentStateString = typeof(T).Name;
             m_currentState.Enter();
-        }
-
-        /// <summary>
-        /// Updates the currently active state.
-        /// </summary>
-        public void UpdateCurrentState()
-        {
-            if (m_currentStateString == null)
-            {
-                return;
-            }
-
-            m_allStates[m_currentStateString].Update();
         }
     }
 }

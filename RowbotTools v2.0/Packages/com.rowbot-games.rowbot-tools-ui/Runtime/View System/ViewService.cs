@@ -10,7 +10,7 @@ namespace RowbotTools.UI.ViewSystem
     public class ViewService : Service
     {
         private AddressablesService m_addressablesService = null;
-        private ViewSystemManager m_viewsManager = null;
+        private ViewsManager m_viewsManager = null;
 
         private Dictionary<string, View> m_allViews = new Dictionary<string, View>();
 
@@ -21,14 +21,14 @@ namespace RowbotTools.UI.ViewSystem
         {
             base.LateInit();
 
-            m_viewsManager = Object.FindObjectOfType<ViewSystemManager>();
+            m_viewsManager = Object.FindObjectOfType<ViewsManager>();
             if (m_viewsManager == null)
             {
                 Debug.LogError("Could not find ViewsManager in ViewService init, make sure there is a ViewsManager in the boot scene.");
                 return;
             }
 
-            m_addressablesService = ServiceSystemManager.Get<AddressablesService>();
+            m_addressablesService = ServicesManager.Get<AddressablesService>();
 
             // Instantiate Views
             m_addressablesService.LoadAssets<GameObject>(m_viewsManager.ViewAssetsLabel, (views) => 
@@ -51,7 +51,7 @@ namespace RowbotTools.UI.ViewSystem
                     newView.Init();
                 }
 
-                ServiceSystemManager.Get<StateService>().SetStartingState(m_viewsManager.StartingStateName);
+                ServicesManager.Get<StateService>().SetStartingState(m_viewsManager.StartingStateName);
             });
         }
 
