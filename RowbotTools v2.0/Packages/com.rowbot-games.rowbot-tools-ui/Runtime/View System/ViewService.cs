@@ -55,6 +55,9 @@ namespace RowbotTools.UI.ViewSystem
             });
         }
 
+        /// <summary>
+        /// Cleans up all the registered views in the service.
+        /// </summary>
         public override void Cleanup()
         {
             base.Cleanup();

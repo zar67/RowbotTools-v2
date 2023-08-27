@@ -8,7 +8,10 @@ namespace RowbotTools.UI.ViewSystem
     /// </summary>
     public abstract class View : MonoBehaviour
     {
-        private enum ViewState
+        /// <summary>
+        /// Enum to determine the current state of a view.
+        /// </summary>
+        public enum ViewState
         {
             Uninitialized,
             Closed,

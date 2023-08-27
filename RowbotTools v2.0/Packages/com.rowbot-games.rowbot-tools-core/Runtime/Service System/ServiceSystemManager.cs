@@ -35,28 +35,22 @@ namespace RowbotTools.Core.ServiceSystem
             {
                 m_services.Add(service.Name, Activator.CreateInstance(service) as Service);
             }
-        }
-
-        /// <summary>
-        /// The base Start initializes all the services.
-        /// </summary>
-        protected virtual void Start()
-        {
+            
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {
                 serviceMap.Value.Init();
             }
+        }
 
+        private void Start()
+        {
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {
                 serviceMap.Value.LateInit();
             }
         }
 
-        /// <summary>
-        /// The base OnDestroy cleans up all the services.
-        /// </summary>
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             foreach (KeyValuePair<string, Service> serviceMap in m_services)
             {
