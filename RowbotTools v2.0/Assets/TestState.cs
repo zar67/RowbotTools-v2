@@ -2,9 +2,9 @@ using RowbotTools.UI.ViewSystem;
 
 public class TestState : State
 {
-    protected override void OpenViews()
+    public override void Enter()
     {
-        base.OpenViews();
+        base.Enter();
 
         m_viewService.Open<TestView>();
     }

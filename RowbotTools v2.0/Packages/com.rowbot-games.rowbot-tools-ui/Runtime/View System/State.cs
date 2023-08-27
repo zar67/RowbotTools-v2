@@ -32,7 +32,7 @@ namespace RowbotTools.UI.ViewSystem
         /// </summary>
         public virtual void Enter()
         {
-            OpenViews();
+
         }
 
         /// <summary>
@@ -48,23 +48,7 @@ namespace RowbotTools.UI.ViewSystem
         /// </summary>
         public virtual void Exit()
         {
-            CloseViews();
-        }
 
-        /// <summary>
-        /// Opens all the views that should open when this state does.
-        /// </summary>
-        protected virtual void OpenViews()
-        {
-        
-        }
-
-        /// <summary>
-        /// Closes all the views that should close when this state does.
-        /// </summary>
-        protected virtual void CloseViews()
-        {
-        
         }
     }
 }
