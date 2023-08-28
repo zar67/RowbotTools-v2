@@ -23,23 +23,35 @@ namespace RowbotTools.Core.DeveloperConsole
             public LogType LogType;
         }
 
+        [Header("Title Button References")]
         [SerializeField] private Button m_clearAllLogsButton;
+        [SerializeField] private Toggle m_pinLogsToggle;
 
         [SerializeField] private Toggle m_logsEnabledToggle;
         [SerializeField] private Toggle m_warningsEnabledToggle;
         [SerializeField] private Toggle m_errorsEnabledToggle;
 
+        [Header("Num Logs Display References")]
         [SerializeField] private TextMeshProUGUI m_numLogsText;
         [SerializeField] private TextMeshProUGUI m_numWarningsText;
         [SerializeField] private TextMeshProUGUI m_numErrorsText;
 
+        [Header("Logs References")]
         [SerializeField] private Transform m_logDisplaysParent;
         [SerializeField] private ConsoleLogDisplay m_logDisplayPrefab;
 
+        [Header("Stack Track Display References")]
         [SerializeField] private TextMeshProUGUI m_stackTraceText;
         [SerializeField] private Button m_copyStackTraceButton;
         [SerializeField] private Button m_clearSelectedButton;
+        
+        [Header("Pinned Logs References")]
+        [SerializeField] private GameObject m_pinnedLogCountsHolder;
+        [SerializeField] private TextMeshProUGUI m_pinnedNumLogsText;
+        [SerializeField] private TextMeshProUGUI m_pinnedNumWarningsText;
+        [SerializeField] private TextMeshProUGUI m_pinnedNumErrorsText;
 
+        [Header("Layout References")]
         [SerializeField] private DisableAutoLayout m_disableAutoLayout;
 
         private List<Log> m_cachedLogs = new List<Log>();
@@ -52,15 +64,9 @@ namespace RowbotTools.Core.DeveloperConsole
         public override void Select()
         {
             base.Select();
-            Populate();
-        }
-
-        private void Awake()
-        {
-            Application.logMessageReceived += HandleLog;
-            ConsoleLogDisplay.OnLogDisplayClicked += HandleLogDisplayClicked;
 
             m_clearAllLogsButton.onClick.AddListener(HandleClearAllLogsClicked);
+            m_pinLogsToggle.onValueChanged.AddListener(HandlePinLogsClicked);
 
             m_logsEnabledToggle.onValueChanged.AddListener((bool enabled) => HandleLogTypeEnabledChanged(LogType.Log, enabled));
             m_warningsEnabledToggle.onValueChanged.AddListener((bool enabled) => HandleLogTypeEnabledChanged(LogType.Warning, enabled));
@@ -68,14 +74,18 @@ namespace RowbotTools.Core.DeveloperConsole
 
             m_copyStackTraceButton.onClick.AddListener(HandleCopyStackTraceClicked);
             m_clearSelectedButton.onClick.AddListener(HandleClearSelectedClicked);
+
+            m_pinLogsToggle.isOn = m_pinnedLogCountsHolder.activeSelf;
+
+            Populate();
         }
 
-        private void OnDestroy()
+        public override void Deselect()
         {
-            Application.logMessageReceived -= HandleLog;
-            ConsoleLogDisplay.OnLogDisplayClicked -= HandleLogDisplayClicked;
+            base.Deselect();
 
             m_clearAllLogsButton.onClick.RemoveListener(HandleClearAllLogsClicked);
+            m_pinLogsToggle.onValueChanged.RemoveListener(HandlePinLogsClicked);
 
             m_logsEnabledToggle.onValueChanged.RemoveAllListeners();
             m_warningsEnabledToggle.onValueChanged.RemoveAllListeners();
@@ -83,6 +93,24 @@ namespace RowbotTools.Core.DeveloperConsole
 
             m_copyStackTraceButton.onClick.RemoveListener(HandleCopyStackTraceClicked);
             m_clearSelectedButton.onClick.RemoveListener(HandleClearSelectedClicked);
+        }
+
+        private void Awake()
+        {
+            Application.logMessageReceived += HandleLog;
+            ConsoleLogDisplay.OnLogDisplayClicked += HandleLogDisplayClicked;
+
+            m_pinnedLogCountsHolder.SetActive(false);
+
+            m_numLogsText.text = m_pinnedNumLogsText.text = "0";
+            m_numWarningsText.text = m_pinnedNumWarningsText.text = "0";
+            m_numErrorsText.text = m_pinnedNumErrorsText.text = "0";
+        }
+
+        private void OnDestroy()
+        {
+            Application.logMessageReceived -= HandleLog;
+            ConsoleLogDisplay.OnLogDisplayClicked -= HandleLogDisplayClicked;
         }
 
         private void HandleLog(string logText, string stackTrace, LogType type)
@@ -108,9 +136,13 @@ namespace RowbotTools.Core.DeveloperConsole
 
             m_numLogsByType[type]++;
 
-            m_numLogsText.text = m_numLogsByType.ContainsKey(LogType.Log) ? m_numLogsByType[LogType.Log].ToString(): "0";
-            m_numWarningsText.text = m_numLogsByType.ContainsKey(LogType.Warning) ? m_numLogsByType[LogType.Warning].ToString() : "0";
-            m_numErrorsText.text = m_numLogsByType.ContainsKey(LogType.Error) ? m_numLogsByType[LogType.Error].ToString() : "0";
+            string numLogs = m_numLogsByType.ContainsKey(LogType.Log) ? m_numLogsByType[LogType.Log].ToString(): "0";
+            string numWarnings = m_numLogsByType.ContainsKey(LogType.Warning) ? m_numLogsByType[LogType.Warning].ToString() : "0";
+            string numErrors = m_numLogsByType.ContainsKey(LogType.Error) ? m_numLogsByType[LogType.Error].ToString() : "0";
+
+            m_numLogsText.text = m_pinnedNumLogsText.text = numLogs;
+            m_numWarningsText.text = m_pinnedNumWarningsText.text = numWarnings;
+            m_numErrorsText.text = m_pinnedNumErrorsText.text = numErrors;
         }
 
         private void HandleLogDisplayClicked(ConsoleLogDisplay display)
@@ -122,6 +154,11 @@ namespace RowbotTools.Core.DeveloperConsole
         {
             m_cachedLogs = new List<Log>();
             Populate();
+        }
+
+        private void HandlePinLogsClicked(bool isOn)
+        {
+            m_pinnedLogCountsHolder.SetActive(isOn);
         }
 
         private void HandleLogTypeEnabledChanged(LogType type, bool enabled)

@@ -1,6 +1,7 @@
 namespace RowbotTools.Core.DeveloperConsole
 {
     using RowbotTools.Core.Utilities;
+    using System.Collections.Generic;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -19,7 +20,32 @@ namespace RowbotTools.Core.DeveloperConsole
         [SerializeField] private GameObject[] m_titleButtons;
         [SerializeField] private DisableAutoLayout m_disableAutoLayout;
 
+        private Dictionary<System.Type, TabDisplay> m_tabsMap;
         private TabDisplay m_selectedTab;
+
+        /// <summary>
+        /// Gets a reference to the tab of the given type.
+        /// </summary>
+        /// <typeparam name="T">The type of the tab, deriving from TabDisplay.</typeparam>
+        /// <returns>The found tab display, null if the tab display type could not be found.</returns>
+        public TabDisplay GetTab<T>() where T : TabDisplay
+        {
+            if (m_tabsMap.ContainsKey(typeof(T)))
+            {
+                return m_tabsMap[typeof(T)];
+            }
+
+            return null;
+        }
+
+        private void Awake()
+        {
+            m_tabsMap = new Dictionary<System.Type, TabDisplay>();
+            foreach (var tab in m_tabs)
+            {
+                m_tabsMap.Add(tab.GetType(), tab);
+            }
+        }
 
         private void OnEnable()
         {

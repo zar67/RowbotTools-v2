@@ -1,5 +1,6 @@
 namespace RowbotTools.Core.Extensions
 {
+    using System.Text.RegularExpressions;
     using UnityEngine;
 
     /// <summary>
@@ -14,6 +15,24 @@ namespace RowbotTools.Core.Extensions
         public static void CopyToClipboard(this string str)
         {
             GUIUtility.systemCopyBuffer = str;
+        }
+
+        /// <summary>
+        /// Splits the given camel case string up into words with spaces between them.
+        /// </summary>
+        /// <param name="str">The string to spilt.</param>
+        /// <returns>The split string.</returns>
+        public static string SplitCamelCase(this string str)
+        {
+            return Regex.Replace(
+                Regex.Replace(
+                    str,
+                    @"(\P{Ll})(\P{Ll}\p{Ll})",
+                    "$1 $2"
+                ),
+                @"(\p{Ll})(\P{Ll})",
+                "$1 $2"
+            );
         }
     }
 }

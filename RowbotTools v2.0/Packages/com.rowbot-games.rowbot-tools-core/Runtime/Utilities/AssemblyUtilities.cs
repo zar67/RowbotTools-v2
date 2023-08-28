@@ -21,6 +21,18 @@ namespace RowbotTools.Core.Utilities
         }
 
         /// <summary>
+        /// Gets all of the different derived types of type T.
+        /// </summary>
+        public static List<string> GetAllNamesOfType<T>()
+        {
+            return AppDomain.CurrentDomain.GetAssemblies()
+             .SelectMany(assembly => assembly.GetTypes())
+             .Where(type => type.IsSubclassOf(typeof(T)))
+             .Select(type => type.Name)
+             .ToList();
+        }
+
+        /// <summary>
         /// Gets all of the different derived types of type T in the given namespace.
         /// </summary>
         public static List<Type> GetAllOfTypeInNamespace<T>(string namespaceToCheck)
