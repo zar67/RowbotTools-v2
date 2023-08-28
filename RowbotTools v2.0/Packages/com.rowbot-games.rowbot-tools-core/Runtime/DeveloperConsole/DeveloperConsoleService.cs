@@ -33,7 +33,9 @@ namespace RowbotTools.Core.DeveloperConsole
             }
 
             AddOption(new TextOptionData() { Text = "This is a test.", Label = "Test" });
-            AddOption(new ToggleOptionData() { Label = "Test Toggle", OnToggleChanged = (bool enabled) => Debug.Log(enabled) }, "Test");
+            var toggleOption = AddOption(new ToggleOptionData() { Label = "Test Toggle", OnToggleChanged = (bool enabled) => Debug.Log(enabled) }, "Test");
+
+            RemoveOption(toggleOption);
         }
 
         /// <summary>
@@ -42,9 +44,14 @@ namespace RowbotTools.Core.DeveloperConsole
         /// <typeparam name="T">The type of option to add.</typeparam>
         /// <param name="category">The category identifier to add the option into.</param>
         /// <param name="optionData">The data to populate the option with.</param>
-        public void AddOption<T>(T optionData, string category = "Default") where T : OptionData
+        public Option AddOption<T>(T optionData, string category = "Default") where T : OptionData
         {
-            m_optionsTabDisplay.AddOption(category, optionData);
+            return m_optionsTabDisplay.AddOption(category, optionData);
+        }
+
+        public void RemoveOption(Option option)
+        {
+            m_optionsTabDisplay.RemoveOption(option);
         }
     }
 }

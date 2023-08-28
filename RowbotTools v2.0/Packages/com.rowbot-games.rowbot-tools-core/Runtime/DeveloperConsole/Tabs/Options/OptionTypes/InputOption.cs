@@ -29,6 +29,15 @@ namespace RowbotTools.Core.DeveloperConsole
             m_inputField.onValueChanged.RemoveAllListeners();
             m_inputField.onValueChanged.AddListener(inputData.OnInputChanged);
         }
+
+        /// <summary>
+        /// Cleans up the InputField events.
+        /// </summary>
+        public override void Cleanup()
+        {
+            m_inputField.onSubmit.RemoveAllListeners();
+            m_inputField.onValueChanged.RemoveAllListeners();
+        }
     }
 
     /// <summary>

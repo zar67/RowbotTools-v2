@@ -22,6 +22,11 @@ namespace RowbotTools.Core.DeveloperConsole
         public Transform OptionsParent => m_optionsParent;
 
         /// <summary>
+        /// The name of the category.
+        /// </summary>
+        public string Name => m_categoryTitleText.text;
+
+        /// <summary>
         /// Sets the category title text.
         /// </summary>
         /// <param name="title">The title to set.</param>

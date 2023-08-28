@@ -22,6 +22,14 @@ namespace RowbotTools.Core.DeveloperConsole
             m_labelText.text = textData.Label + ":";
             m_mainText.text = textData.Text;
         }
+
+        /// <summary>
+        /// Cleans up the Option.
+        /// </summary>
+        public override void Cleanup()
+        {
+
+        }
     }
 
     /// <summary>

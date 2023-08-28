@@ -25,6 +25,14 @@ namespace RowbotTools.Core.DeveloperConsole
             m_selectButton.onClick.RemoveAllListeners();
             m_selectButton.onClick.AddListener(actionData.OnAction);
         }
+
+        /// <summary>
+        /// Cleans up the Action event.
+        /// </summary>
+        public override void Cleanup()
+        {
+            m_selectButton.onClick.RemoveAllListeners();
+        }
     }
 
     /// <summary>

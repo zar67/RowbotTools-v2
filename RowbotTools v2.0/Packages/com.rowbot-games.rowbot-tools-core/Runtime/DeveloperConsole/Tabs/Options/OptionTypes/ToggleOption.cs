@@ -27,6 +27,14 @@ namespace RowbotTools.Core.DeveloperConsole
             m_toggle.onValueChanged.RemoveAllListeners();
             m_toggle.onValueChanged.AddListener(toggleData.OnToggleChanged);
         }
+
+        /// <summary>
+        /// Cleans up the OnValueChanged event.
+        /// </summary>
+        public override void Cleanup()
+        {
+            m_toggle.onValueChanged.RemoveAllListeners();
+        }
     }
 
     /// <summary>
